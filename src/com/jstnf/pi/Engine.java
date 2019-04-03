@@ -10,18 +10,20 @@ import java.io.File;
 
 public class Engine extends Canvas implements Runnable
 {
-	private final int DIGITS = 8;
+	private final int DIGITS = 4;
 	private Thread thread;
 	private boolean running;
-	private int numCollisions;
-	private Cube bigCube, smallCube;
+	private long numCollisions;
+	private Cube bigCube, smallCube, thirdCube, fourthCube;
 
 	public Engine()
 	{
 		new Window(1000, 500, "Pi-Engine", this);
 
 		smallCube = new Cube(200, 350, 10, 1, 0);
-		bigCube = new Cube(500, 350, 50, Math.pow(100, DIGITS - 1), -0.1);
+		bigCube = new Cube(500, 350, 50, Math.pow(100, DIGITS - 1), -0.00001);
+//		thirdCube = new Cube(700, 350, 90, 10000000, -0.00005);
+//		fourthCube = new Cube(900, 350, 150, 1000000000, -0.00001);
 	}
 
 	public static void main(String[] args)
@@ -56,7 +58,7 @@ public class Engine extends Canvas implements Runnable
 	public void run()
 	{
 		long lastTime = System.nanoTime();
-		double amountOfTicks = 3000.0;
+		double amountOfTicks = 30000000.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
@@ -88,14 +90,11 @@ public class Engine extends Canvas implements Runnable
 	private void tick()
 	{
 		if (smallCube.x <= 40)
-		{
-			smallCube.reverseDir();
-			numCollisions++;
-			//			clack();
-		}
-
-		bigCube.move();
-		smallCube.move();
+        {
+            smallCube.reverseDir();
+            numCollisions++;
+            //			clack();
+        }
 
 		if (bigCube.isColliding(smallCube))
 		{
@@ -106,7 +105,20 @@ public class Engine extends Canvas implements Runnable
 			//					(int) (bigCube.y - bigCube.width / 2), 50, 50, null, null);
 		}
 
-		System.out.println(numCollisions);
+//		if (thirdCube.isColliding(bigCube))
+//        {
+//            thirdCube.doCollide(bigCube);
+//        }
+//
+//        if (fourthCube.isColliding(thirdCube))
+//        {
+//            fourthCube.doCollide(thirdCube);
+//        }
+
+        bigCube.move();
+        smallCube.move();
+//        thirdCube.move();
+//        fourthCube.move();
 	}
 
 	private void render()
@@ -119,18 +131,28 @@ public class Engine extends Canvas implements Runnable
 		}
 
 		int tempDrawS = (int) smallCube.x;
-
 		if (tempDrawS <= 40)
 		{
 			tempDrawS = 40;
 		}
 
 		int tempDraw = (int) bigCube.x;
-
 		if (tempDraw <= 40 + smallCube.width)
 		{
 			tempDraw = 40 + smallCube.width;
 		}
+
+//		int tempDraw3 = (int) thirdCube.x;
+//		if (tempDraw3 <= bigCube.width + tempDraw)
+//        {
+//            tempDraw3 = bigCube.width + tempDraw;
+//        }
+//
+//        int tempDraw4 = (int) fourthCube.x;
+//        if (tempDraw4 <= thirdCube.width + tempDraw3)
+//        {
+//            tempDraw4 = thirdCube.width + tempDraw3;
+//        }
 
 		Graphics g = bs.getDrawGraphics();
 
@@ -141,12 +163,23 @@ public class Engine extends Canvas implements Runnable
 		g.fillRect(35, 0, 5, 500);
 		g.fillRect(0, 350, 1000, 5);
 		g.drawString(numCollisions + "", tempDrawS, (int) smallCube.y + 25);
+        g.drawString(numCollisions + "", 500, 250);
 
 		g.setColor(Color.RED);
 		g.fillRect(tempDrawS, (int) smallCube.y - smallCube.width, smallCube.width, smallCube.width);
+        g.drawString("v = " + smallCube.v, tempDrawS, (int) smallCube.y + 15);
 
 		g.setColor(Color.CYAN);
 		g.fillRect(tempDraw, (int) bigCube.y - bigCube.width, bigCube.width, bigCube.width);
+        g.drawString("v = " + bigCube.v, tempDraw, (int) bigCube.y - (5 + bigCube.width) );
+
+//        g.setColor(Color.GREEN);
+//        g.fillRect(tempDraw3, (int) thirdCube.y - thirdCube.width, thirdCube.width, thirdCube.width);
+//        g.drawString("v = " + thirdCube.v, tempDraw3, (int) thirdCube.y - (5 + thirdCube.width) );
+//
+//        g.setColor(Color.YELLOW);
+//        g.fillRect(tempDraw4, (int) fourthCube.y - fourthCube.width, fourthCube.width, fourthCube.width);
+//        g.drawString("v = " + fourthCube.v, tempDraw4, (int) fourthCube.y - (5 + fourthCube.width) );
 
 		g.dispose();
 		bs.show();
