@@ -10,7 +10,7 @@ import java.io.File;
 
 public class Engine extends Canvas implements Runnable
 {
-	private final int DIGITS = 4;
+	private final int DIGITS = 6;
 	private Thread thread;
 	private boolean running;
 	private long numCollisions;
@@ -22,8 +22,8 @@ public class Engine extends Canvas implements Runnable
 
 		smallCube = new Cube(200, 350, 10, 1, 0);
 		bigCube = new Cube(500, 350, 50, Math.pow(100, DIGITS - 1), -0.00001);
-		thirdCube = new Cube(600, 350, 90, 10000000, 0.0000005);
-		fourthCube = new Cube(795, 350, 100, Integer.MAX_VALUE, -0.0000001);
+//		thirdCube = new Cube(600, 350, 90, 10000000, 0.0000005);
+//		fourthCube = new Cube(795, 350, 100, Integer.MAX_VALUE, -0.0000001);
 	}
 
 	public static void main(String[] args)
@@ -107,30 +107,30 @@ public class Engine extends Canvas implements Runnable
 			//					(int) (bigCube.y - bigCube.width / 2), 50, 50, null, null);
 		}
 
-		if (thirdCube.isColliding(bigCube))
-        {
-            thirdCube.doCollide(bigCube);
-        }
-
-        if (fourthCube.isColliding(thirdCube))
-        {
-            fourthCube.doCollide(thirdCube);
-        }
-
-		if (fourthCube.x + fourthCube.width >= 1000)
-		{
-			fourthCube.reverseDir();
-		}
+//		if (thirdCube.isColliding(bigCube))
+//        {
+//            thirdCube.doCollide(bigCube);
+//        }
+//
+//        if (fourthCube.isColliding(thirdCube))
+//        {
+//            fourthCube.doCollide(thirdCube);
+//        }
+//
+//		if (fourthCube.x + fourthCube.width >= 1000)
+//		{
+//			fourthCube.reverseDir();
+//		}
 
         bigCube.move();
         smallCube.move();
-        thirdCube.move();
-        fourthCube.move();
+//        thirdCube.move();
+//        fourthCube.move();
 
-        bigCube.v -= gravity;
-		smallCube.v -= gravity;
-		thirdCube.v -= gravity;
-		fourthCube.v -= gravity;
+//        bigCube.v -= gravity;
+//		smallCube.v -= gravity;
+//		thirdCube.v -= gravity;
+//		fourthCube.v -= gravity;
 	}
 
 	private void render()
@@ -154,17 +154,17 @@ public class Engine extends Canvas implements Runnable
 			tempDraw = 40 + smallCube.width;
 		}
 
-		int tempDraw3 = (int) thirdCube.x;
-		if (tempDraw3 <= bigCube.width + tempDraw)
-        {
-            tempDraw3 = bigCube.width + tempDraw;
-        }
-
-        int tempDraw4 = (int) fourthCube.x;
-        if (tempDraw4 <= thirdCube.width + tempDraw3)
-        {
-            tempDraw4 = thirdCube.width + tempDraw3;
-        }
+//		int tempDraw3 = (int) thirdCube.x;
+//		if (tempDraw3 <= bigCube.width + tempDraw)
+//        {
+//            tempDraw3 = bigCube.width + tempDraw;
+//        }
+//
+//        int tempDraw4 = (int) fourthCube.x;
+//        if (tempDraw4 <= thirdCube.width + tempDraw3)
+//        {
+//            tempDraw4 = thirdCube.width + tempDraw3;
+//        }
 
 		Graphics g = bs.getDrawGraphics();
 
@@ -185,13 +185,13 @@ public class Engine extends Canvas implements Runnable
 		g.fillRect(tempDraw, (int) bigCube.y - bigCube.width, bigCube.width, bigCube.width);
         g.drawString("v = " + bigCube.v * 30000000.0, tempDraw, (int) bigCube.y - (5 + bigCube.width) );
 
-        g.setColor(Color.GREEN);
-        g.fillRect(tempDraw3, (int) thirdCube.y - thirdCube.width, thirdCube.width, thirdCube.width);
-        g.drawString("v = " + thirdCube.v * 30000000.0, tempDraw3, (int) thirdCube.y - (5 + thirdCube.width) );
-
-        g.setColor(Color.YELLOW);
-        g.fillRect(tempDraw4, (int) fourthCube.y - fourthCube.width, fourthCube.width, fourthCube.width);
-        g.drawString("v = " + fourthCube.v * 30000000.0, tempDraw4, (int) fourthCube.y - (5 + fourthCube.width) );
+//        g.setColor(Color.GREEN);
+//        g.fillRect(tempDraw3, (int) thirdCube.y - thirdCube.width, thirdCube.width, thirdCube.width);
+//        g.drawString("v = " + thirdCube.v * 30000000.0, tempDraw3, (int) thirdCube.y - (5 + thirdCube.width) );
+//
+//        g.setColor(Color.YELLOW);
+//        g.fillRect(tempDraw4, (int) fourthCube.y - fourthCube.width, fourthCube.width, fourthCube.width);
+//        g.drawString("v = " + fourthCube.v * 30000000.0, tempDraw4, (int) fourthCube.y - (5 + fourthCube.width) );
 
 		g.dispose();
 		bs.show();
